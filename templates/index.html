@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Monitor Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+        }
+        header h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+        header p {
+            font-size: 1rem;
+            margin: 5px 0 0;
+            color: #dce8f1;
+        }
+        .container {
+            padding: 20px;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th,
+        .table td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table tr:hover {
+            background-color: #ddd;
+        }
+        .allowed {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .blocked {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+        .chart-container {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="py-3 text-center">
+            <h1 class="text-primary">Traffic Monitor Dashboard</h1>
+            <p class="text-muted">Real-time traffic analytics and monitoring</p>
+        </header>
+
+        <!-- الرسومات البيانية -->
+        <section class="my-4">
+            <div class="row">
+                <!-- الرسم البياني الأول -->
+                <div class="col-md-6 mb-4">
+                    <h3 class="text-center">Traffic Status</h3>
+                    <canvas id="trafficChart" width="400" height="200"></canvas>
+                </div>
+                <!-- الرسم البياني الثاني -->
+                <div class="col-md-6 mb-4">
+                    <h3 class="text-center">Vehicle Counts</h3>
+                    <canvas id="vehicleChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            <div class="row">
+                <!-- الرسم البياني الثالث -->
+                <div class="col-12">
+                    <h3 class="text-center">Traffic Flow Analysis</h3>
+                    <canvas id="flowChart" width="800" height="300"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- مؤشر تحميل -->
+        <div class="loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <!-- جدول حركة المرور -->
+        <section class="table-container">
+            <h2>Traffic Log</h2>
+            <table class="table table-striped table-bordered">
+                <thead class="table-primary">
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Timestamp</th>
+                        <th>Status</th>
+                        <th>City</th>
+                        <th>Region</th>
+                        <th>Country</th>
+                    </tr>
+                </thead>
+                <tbody id="logBody">
+                    <!-- سيتم ملؤها ديناميكيًا -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- ملف السجلات -->
+    <script src="/static/logs.js"></script>
+    <!-- ملف الرسومات -->
+    <script src="/static/charts.js"></script>
+</body>
+</html>
